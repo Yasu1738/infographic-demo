@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>景況調査アンケート回答率 インフォグラフィック (メッセージ更新版)</title>
+    <title>景況調査アンケート回答率 インフォグラフィック (データ更新版)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <style>
@@ -12,16 +12,37 @@
             font-family: 'Inter', sans-serif;
             line-height: 1.7; 
         }
+        .accordion-button { 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            text-align: left;
+            padding: 1rem; 
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            color: #374151; 
+            background-color: #f3f4f6; 
+            border-radius: 0.5rem; 
+            outline: none;
+            transition: background-color 0.3s ease;
+        }
+        .accordion-button:hover {
+            background-color: #e5e7eb; 
+        }
         .accordion-content {
             max-height: 0;
             overflow: hidden;
-            transition: max-height 0.5s ease-out; 
-            border-top: 1px solid #e2e8f0; 
+            transition: max-height 0.4s ease-out; 
+            background-color: #ffffff; 
+            border-bottom-left-radius: 0.5rem; 
+            border-bottom-right-radius: 0.5rem; 
+            box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.05); 
         }
         .accordion-button.open + .accordion-content {
             max-height: 2500px; 
-            padding-top: 1rem;
-            padding-bottom: 1rem;
+            padding: 1.25rem; 
+            border-top: 1px solid #e2e8f0; 
         }
         .modal {
             display: none; 
@@ -84,7 +105,7 @@
         .accordion-button.open .arrow-down {
             transform: rotate(180deg);
         }
-        .accordion-button.open .arrow-up {
+        .accordion-button.open .arrow-up { 
             transform: rotate(180deg);
         }
         .rate-bar-container {
@@ -147,21 +168,21 @@
             padding-left: 0.5rem;
             border-left: 3px solid #d1d5db; 
         }
-        .catchphrase-text { /* 新しいキャッチコピー用のスタイル */
+        .catchphrase-text { 
             font-size: 1.75rem; 
             font-weight: bold;
             text-align: center;
             margin: 2rem 0 1rem;
-            color: #b91c1c; /* 少し暗めの赤 */
+            color: #b91c1c; 
         }
         .explanation-text p, .explanation-text ul {
             margin-bottom: 1rem;
-            color: #374151; /* gray-700 */
+            color: #374151; 
         }
         .explanation-text h4 {
             font-size: 1.25rem;
             font-weight: bold;
-            color: #111827; /* gray-900 */
+            color: #111827; 
             margin-top: 1.5rem;
             margin-bottom: 0.5rem;
         }
@@ -176,6 +197,16 @@
             position: relative;
             height:500px; 
             width:100%;
+        }
+        .image-container {
+            text-align: center; 
+        }
+        .image-caption {
+            font-size: 0.9rem;
+            color: #4b5563;
+            text-align: center;
+            margin-top: 0.75rem; 
+            line-height: 1.5;
         }
     </style>
 </head>
@@ -231,11 +262,11 @@
 
         <div class="space-y-6">
             <section id="rateTrendGraphSection">
-                <button class="accordion-button w-full text-left text-xl font-semibold text-gray-700 p-4 bg-slate-200 hover:bg-slate-300 rounded-lg focus:outline-none transition-colors duration-300 flex justify-between items-center">
+                <button class="accordion-button">
                     組織別 回答率推移グラフ
                     <span class="arrow-down"></span>
                 </button>
-                <div class="accordion-content bg-white p-5 rounded-b-lg shadow-inner">
+                <div class="accordion-content">
                     <div class="chart-container">
                         <canvas id="responseRateChart"></canvas>
                     </div>
@@ -243,11 +274,11 @@
             </section>
 
             <section id="trendAnalysis">
-                <button class="accordion-button w-full text-left text-xl font-semibold text-gray-700 p-4 bg-slate-200 hover:bg-slate-300 rounded-lg focus:outline-none transition-colors duration-300 flex justify-between items-center">
+                <button class="accordion-button">
                     組織別 回答状況の推移と傾向分析
                     <span class="arrow-down"></span>
                 </button>
-                <div class="accordion-content bg-white p-5 rounded-b-lg shadow-inner">
+                <div class="accordion-content">
                     <p class="mb-4 text-gray-600">提供された分析レポートに基づき、西尾張支部傘下の組織を回答率の推移によって3つのカテゴリーに分類し、詳細な傾向を分析します。<br><span class="note-text"><strong>注:</strong> 以下の分類および要因分析はデータに基づく仮説であり、実際の要因については各組織へのヒアリング等による確認が必要です。</span></p>
                     
                     <h3 class="subsection-title"><span class="emoji-bullet">📈</span>大幅改善（行動喚起成功の可能性）</h3>
@@ -261,25 +292,25 @@
                     <h3 class="subsection-title"><span class="emoji-bullet">⚠️</span>継続低迷（重点的なテコ入れが必要）</h3>
                     <p class="text-gray-600 mb-3">このカテゴリーには、<strong class="highlight-red">海部・津島、一宮</strong>が含まれます。これらの組織は、回答率が継続して低迷、あるいは悪化傾向にあり、重点的な対策が必要です。</p>
                     <ul class="list-disc text-gray-600 space-y-2">
-                        <li><strong>海部・津島:</strong> 2024年5月期17.3% → 2025年2月期11.4% (-5.9pt) → 2025年5月期11.2% (-0.2pt)。会員数増加にも関わらず回答数・回答率が低迷。キーパーソンによる個別声かけ体制の構築や目標設定による動機づけを推奨。</li>
+                        <li><strong>海部・津島:</strong> 2024年5月期17.3% → 2025年2月期11.4% (-5.9pt) → 2025年5月期12.2% (<span class="highlight-green">+0.8pt</span>)。会員数増加の中で回答率は微増。</li>
                         <li><strong>一宮:</strong> 2024年5月期25.2% → 2025年2月期20.0% (-5.2pt) → 2025年5月期11.4% (<span class="highlight-red">-8.6pt</span>)。会員数安定の中で回答数・回答率が継続的に大きく下落。同様に重点的なテコ入れが必要。</li>
                     </ul>
 
                     <h3 class="subsection-title"><span class="emoji-bullet">🟨</span>ゆるやか改善/現状維持（さらなる支援が有効）</h3>
                     <p class="text-gray-600 mb-3">このカテゴリーには、<strong class="highlight-yellow">稲沢、西春日井</strong>が含まれます。これらの組織は、回答率が持ち直し傾向、または微増傾向、あるいは高水準から低下後に安定の兆しを見せており、さらなる支援によって回答率向上が期待できます。</p>
                     <ul class="list-disc text-gray-600 space-y-2">
-                        <li><strong>稲沢:</strong> 2024年5月期9.8% → 2025年2月期16.8% (+7.0pt) → 2025年5月期18.8% (<span class="highlight-yellow">+2.0pt</span>)。地道に向上傾向。会員数増加の中で回答数も順調増。達成目前型の声かけが有効の可能性。</li>
-                        <li><strong>西春日井:</strong> 2024年5月期47.6% → 2025年2月期20.0% (-27.6pt) → 2025年5月期17.6% (-2.4pt)。24年5月期は高水準だったが大幅低下後、直近の減少幅は小さい。回復に向けた追加支援や達成目標型の働きかけが有効の可能性。</li>
+                        <li><strong>稲沢:</strong> 2024年5月期9.4% → 2025年2月期16.8% (+7.4pt) → 2025年5月期24.0% (<span class="highlight-green">+7.2pt</span>)。継続して向上。会員数増加の中で回答数も順調増。</li>
+                        <li><strong>西春日井:</strong> 2024年5月期39.3% → 2025年2月期20.0% (-19.3pt) → 2025年5月期17.6% (-2.4pt)。24年5月期は高水準だったが大幅低下後、直近の減少幅は小さい。回復に向けた追加支援や達成目標型の働きかけが有効の可能性。</li>
                     </ul>
                 </div>
             </section>
 
             <section id="recommendedActions">
-                <button class="accordion-button w-full text-left text-xl font-semibold text-gray-700 p-4 bg-slate-200 hover:bg-slate-300 rounded-lg focus:outline-none transition-colors duration-300 flex justify-between items-center">
+                <button class="accordion-button">
                     推奨アクション
                     <span class="arrow-down"></span>
                 </button>
-                <div class="accordion-content bg-white p-5 rounded-b-lg shadow-inner">
+                <div class="accordion-content">
                      <ul class="list-none space-y-4 text-gray-700">
                         <li>
                             <strong class="text-lg block mb-1"><span class="emoji-bullet">📈</span>大幅改善組織 (一宮西、尾張北青同、尾張西青同)</strong>
@@ -298,16 +329,16 @@
             </section>
 
             <section id="messageForAction">
-                <button class="accordion-button w-full text-left text-xl font-semibold text-gray-700 p-4 bg-slate-200 hover:bg-slate-300 rounded-lg focus:outline-none transition-colors duration-300 flex justify-between items-center">
+                <button class="accordion-button">
                     “何も変わらない”は、答えない人がつくる。
                     <span class="arrow-down"></span>
                 </button>
-                <div class="accordion-content bg-white p-5 rounded-b-lg shadow-inner explanation-text">
+                <div class="accordion-content explanation-text">
                     <p class="text-lg italic text-center text-gray-600 mb-6">「ただのアンケートでしょ？」</p>
                     <p class="mb-4">…いえ、それ、大きな勘違いかもしれません。<br>
                     景況調査アンケートは、単なる意見収集ではなく、あなたの会社、業界、地域が“どう支援されるか”を考えるための重要な情報源になります。<br>
                     つまり、「声を上げる」か「沈黙する」かで、地域や業界の未来に関わる選択肢が変わる可能性があるのです。</p>
-
+    
                     <h4>📊 景況調査アンケートとは？</h4>
                     <p>景況調査アンケートとは、会員企業の経営状況や景気動向、業界・地域での課題を把握するための調査です。</p>
                     <p>愛知中小企業家同友会ではこれを、<strong>単なるデータ収集ではなく、「会員の生の声を行政や社会に伝える大切な手段」</strong>として位置づけています。</p>
@@ -356,15 +387,16 @@
     </div>
 
 <script>
+    // 提供されたHTMLファイルのデータに基づいて更新
     const surveyData = {
-        overall: { 
-            may2025: { total: 549, responded: 113, rate: (113 / 549) * 100 }, 
-            feb2025: { total: 535, responded: 87, rate: (87 / 535) * 100 },   
-            may2024: { total: 489, responded: 115, rate: (115 / 489) * 100 }  
+        overall: { // 西尾張支部全体のデータ
+            may2025: { total: 549, responded: 120, rate: (120 / 549) * 100 }, // 21.85... -> 21.9%
+            feb2025: { total: 535, responded: 87, rate: (87 / 535) * 100 },   // 16.26... -> 16.3%
+            may2024: { total: 495, responded: 115, rate: (115 / 495) * 100 }  // 23.23... -> 23.2%
         },
         branches: [ 
             { name: "海部・津島",支部:"西尾張支部", 
-              may2025: { members: 98, responded: 11, rate: 11.2 }, 
+              may2025: { members: 98, responded: 12, rate: 12.2 }, 
               feb2025: { members: 88, responded: 10, rate: 11.4 }, 
               may2024: { members: 81, responded: 14, rate: 17.3 } 
             },
@@ -376,30 +408,33 @@
             { name: "一宮西",支部:"西尾張支部", 
               may2025: { members: 114, responded: 41, rate: 36.0 }, 
               feb2025: { members: 112, responded: 21, rate: 18.8 }, 
-              may2024: { members: 85, responded: 8, rate: 9.4 } 
+              may2024: { members: 107, responded: 30, rate: 28.0 } // 元のデータファイルに合わせて修正
             },
             { name: "稲沢",支部:"西尾張支部", 
-              may2025: { members: 96, responded: 18, rate: 18.8 }, 
+              may2025: { members: 96, responded: 23, rate: 24.0 }, 
               feb2025: { members: 95, responded: 16, rate: 16.8 }, 
-              may2024: { members: 61, responded: 6, rate: 9.8 } 
+              may2024: { members: 85, responded: 8, rate: 9.4 } // 元のデータファイルに合わせて修正
             },
             { name: "西春日井",支部:"西尾張支部", 
               may2025: { members: 68, responded: 12, rate: 17.6 }, 
               feb2025: { members: 65, responded: 13, rate: 20.0 }, 
-              may2024: { members: 21, responded: 10, rate: 47.6 } 
+              may2024: { members: 61, responded: 24, rate: 39.3 } // 元のデータファイルに合わせて修正
             },
             { name: "尾張北青同",支部:"西尾張支部", 
               may2025: { members: 32, responded: 13, rate: 40.6 }, 
               feb2025: { members: 27, responded: 3, rate: 11.1 }, 
-              may2024: { members: 21, responded: 10, rate: 61.0 } 
+              may2024: { members: 21, responded: 10, rate: 47.6 } // 元のデータファイルに合わせて修正
             },
             { name: "尾張西青同",支部:"西尾張支部", 
               may2025: { members: 36, responded: 7, rate: 19.4 }, 
               feb2025: { members: 43, responded: 3, rate: 7.0 }, 
-              may2024: { members: 33, responded: 2, rate: 6.1 } 
+              may2024: { members: 33, responded: 2, rate: 6.1 } // 元のデータファイルに合わせて修正
             }
         ]
     };
+
+    // JavaScript内のデータに基づいて、HTML内のテキストやグラフを動的に更新する処理
+    // (既存のJavaScriptコードはそのまま活用)
 
     surveyData.branches.forEach(branch => {
         branch.changeFeb = branch.may2025.rate - branch.feb2025.rate;
